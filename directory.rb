@@ -1,14 +1,17 @@
-student_count = 5
+#first we put all students into an array
+students = [
+"Mr. Pink",
+"Mr. Brown",
+"Mr. Orange",
+"Mr. Blue",
+"Mr. Red"
+]
 
-puts ""
-#first we print the list of students
+#Now we iterate over each student and puts their name to the screens
 puts "The students of my cohort at Makers Academy"
-puts "------------"
-puts "Mr. Pink"
-puts "Mr. Brown"
-puts "Mr. Orange"
-puts "Mr. Blue"
-puts "Mr. Red"
+puts "-------------"
+students.each { |student| puts student }
 
 #finally we print the total
-puts "Overall we have #{student_count} great students!"
+puts "Overall we have #{students.length} great students!"
+
