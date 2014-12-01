@@ -1,10 +1,10 @@
 #first we put all students into an array
 students = [
 "Mr. Pink",
-"Mr. Brown",
-"Mr. Orange",
+"Ms. Brown",
+"Miss. Orange",
 "Mr. Blue",
-"Mr. Red"
+"Mrs. Red"
 ]
 
 #Now we iterate over each student and puts their name to the screens
