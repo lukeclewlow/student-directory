@@ -55,10 +55,16 @@ end
 
 
 def list(students)
+  puts "Which month's cohort would you like to see?"
+  month = gets.chomp
+  if month == ""
+    puts "#{index + 1}: #{student[:name]}, #{student[:cohort]}, #{student[:nationality]}, #{student[:age]}"
+  else
   students.each_with_index do | student, index |
-      if students[index][:cohort] == "November"
+      if students[index][:cohort] == month
     puts "#{index + 1}: #{student[:name]}, #{student[:cohort]}, #{student[:nationality]}, #{student[:age]}"
     end
+  end
 end
 end
 
