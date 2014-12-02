@@ -1,4 +1,4 @@
-system "clear"
+system "clear"    
 
 linewidth = 100
 
@@ -55,18 +55,21 @@ end
 
 
 def list(students)
-  puts "Which month's cohort would you like to see?"
+  puts "Which month's cohort would you like to see? (Leave blank for all)"
   month = gets.chomp
   if month == ""
+    students.each_with_index do | student, index |  
     puts "#{index + 1}: #{student[:name]}, #{student[:cohort]}, #{student[:nationality]}, #{student[:age]}"
+    end  
   else
   students.each_with_index do | student, index |
       if students[index][:cohort] == month
     puts "#{index + 1}: #{student[:name]}, #{student[:cohort]}, #{student[:nationality]}, #{student[:age]}"
+      end
     end
   end
 end
-end
+
 
 def list_cohort(students)
   students.sort_by! { |x| x[:cohort] }  
@@ -82,7 +85,7 @@ def print_footer(names)
     puts "" 
   else
     puts ""
-    puts "Overall, we have #{names.length} great student.".center(50)
+    puts "Overall, we have #{names.length} great students.".center(50)
     puts "" 
   end
 end
