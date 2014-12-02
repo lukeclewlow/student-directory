@@ -1,32 +1,43 @@
+system "clear"
+
+linewidth = 100
+
 puts ""
-puts "Welcome to the student database"
-puts "==============================="
+puts "Welcome to the student database".center(50)
+puts "===============================".center(50)
 
 
 def input_info
-  puts "Please enter all requested information. To finish just press enter twice when prompted." 
+  puts "Please enter all requested information.".center(50)
+  puts "To finish just press enter twice when prompted.".center(50)
   puts ""
   students = []
-  print "Please enter student's name?:"
+  print "Please enter student's name?: "
   name = gets.chomp
     while !name.empty? do 
-      print "Please enter #{name}'s nationality?:"
+      print "Please enter #{name}'s nationality?: "
       nationality = gets.chomp
-      print "Please enter #{name}'s height?:"
+      print "Please enter #{name}'s height?: "
       height = gets.chomp
-      print "Please enter #{name}'s age?:"
+      print "Please enter #{name}'s age?: "
       age = gets.chomp
     students << {:name => name, :nationality => nationality, :height => height, :age => age}    
-    puts "Now we have #{students.length} students"
-    puts "Please enter another student's name, or press RETURN to finish."
+    puts ""
+    puts "Now we have #{students.length} students".center(50)
+    puts "If you have no more student's to enter, press RETURN to finish.".center(50)
+    puts ""
+    print "Please enter student's name?: "
     name = gets.chomp
   end
   students
 end	
 
 def print_header
-  puts "The students of my cohort at Makers Academy"
-  puts "-------------"
+  puts ""
+  puts "-------------".center(50)
+  puts "The students of my cohort at Makers Academy".center(50)
+  puts "-------------".center(50)
+  puts ""
 end
 
 
@@ -40,7 +51,8 @@ end
 
 def print_footer(names)
   puts ""
-  puts "Overall, we have #{names.length} great students."
+  puts "Overall, we have #{names.length} great students.".center(50)
+  puts "" 
 end
 
 
