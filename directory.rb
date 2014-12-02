@@ -47,7 +47,7 @@ end
 
 def list_while(students)
   index = 0
-  while index < students.length
+  while index < students.length 
       puts "#{students[index][:name]}, #{students[index][:cohort]}, #{students[index][:nationality]}, #{students[index][:age]}"
       index += 1
   end
@@ -60,6 +60,12 @@ end
 #  end
 #end
 
+def list_cohort(students)
+  students.sort_by! { |x| x[:cohort] }  
+    students.each_with_index do | student,  index | 
+    puts "#{index + 1}: #{student[:name]}, #{student[:cohort]}, #{student[:nationality]}, #{student[:age]}" 
+  end
+end
 
 def print_footer(names)
   puts ""
@@ -71,6 +77,7 @@ end
 students = input_info
 system "clear"
 print_header
-list_while(students)
+list_cohort(students)
+#list_while(students)
 #list(students)
 print_footer(students)
