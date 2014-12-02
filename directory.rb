@@ -1,45 +1,50 @@
-def input_students
-  puts "Please enter the names of the students"
-  puts "To finish, just hit return twice"
-  # create an empty array
+puts ""
+puts "Welcome to the student database"
+puts "==============================="
+
+
+def input_info
+  puts "Please enter all requested information. To finish just press enter twice when prompted." 
+  puts ""
   students = []
-  # get the first name
+  print "Please enter student's name?:"
   name = gets.chomp
-  # while the name is not empty, repeat this code
-  while !name.empty? do    
-    # add the student hash to the array
-    students << {:name => name, :cohort => :november}    
+    while !name.empty? do 
+      print "Please enter #{name}'s nationality?:"
+      nationality = gets.chomp
+      print "Please enter #{name}'s height?:"
+      height = gets.chomp
+      print "Please enter #{name}'s age?:"
+      age = gets.chomp
+    students << {:name => name, :nationality => nationality, :height => height, :age => age}    
     puts "Now we have #{students.length} students"
-    # get another name from the user
+    puts "Please enter another student's name, or press RETURN to finish."
     name = gets.chomp
   end
-  # return the array of students
   students
 end	
 
 def print_header
-	puts "The students of my cohort at Makers Academy"
-	puts "-------------"
+  puts "The students of my cohort at Makers Academy"
+  puts "-------------"
 end
 
-def print(names)
-	for name in names
-		#i = 0
-		#while i < students.length
-			puts "#{name}"
-		#i += 1
-		#end
-	end	
+
+
+def list(students)
+  students.each_with_index do | student, index |
+    puts "#{index + 1}: #{student[:name]}, #{student[:nationality]}, #{student[:height]}, #{student[:age]}"
+  end
 end
+
 
 def print_footer(names)
-	puts "Overall, we have #{names.length} great students."
+  puts ""
+  puts "Overall, we have #{names.length} great students."
 end
 
-#nothing happens until we call the methods
 
-students = input_students
+students = input_info
 print_header
-print(students)
+list(students)
 print_footer(students)
-
