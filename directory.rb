@@ -6,35 +6,32 @@ puts ""
 puts "Welcome to the student database".center(50)
 puts "===============================".center(50)
 
-
 def input_info
   puts "Please enter all requested information.".center(50)
   puts "To finish just press enter twice when prompted.".center(50)
   puts ""
   students = []
   print "Please enter student's name?: "
-  name = gets.chomp
+  name = gets.chomp.to_sym
     while !name.empty? do 
       print "Please enter #{name}'s cohort: "
       cohort = gets.chomp
         if cohort == ""
            cohort = "December"
         else
-           cohort.capitalize
+           cohort.capitalize.to_sym
         end
       print "Please enter #{name}'s nationality?: "
-      nationality = gets.chomp
-      print "Please enter #{name}'s height?: "
-      height = gets.chomp
+      nationality = gets.chomp.to_sym
       print "Please enter #{name}'s age?: "
-      age = gets.chomp
-    students << {:name => name, :cohort => cohort, :nationality => nationality, :height => height, :age => age}    
+      age = gets.chomp.to_sym
+    students << {:name => name, :cohort => cohort, :nationality => nationality, :age => age}    
     puts ""
     puts "Now we have #{students.length} students".center(50)
     puts "If you have no more student's to enter, press RETURN to finish.".center(50)
     puts ""
     print "Please enter student's name?: "
-    name = gets.chomp
+    name = gets.chomp.to_sym
   end
   students
 end	
@@ -48,12 +45,20 @@ def print_header
 end
 
 
-
-def list(students)
-  students.each_with_index do | student, index |
-    puts "#{index + 1}: #{student[:name]}, #{student[:cohort]}, #{student[:nationality]}, #{student[:height]}, #{student[:age]}"
+def list_while(students)
+  index = 0
+  while index < students.length
+      puts "#{students[index][:name]}, #{students[index][:cohort]}, #{students[index][:nationality]}, #{students[index][:age]}"
+      index += 1
   end
 end
+
+
+#def list(students)
+#  students.each_with_index do | student, index |
+#    puts "#{index + 1}: #{student[:name]}, #{student[:cohort]}, #{student[:nationality]}, #{student[:age]}"
+#  end
+#end
 
 
 def print_footer(names)
@@ -66,5 +71,6 @@ end
 students = input_info
 system "clear"
 print_header
-list(students)
+list_while(students)
+#list(students)
 print_footer(students)
