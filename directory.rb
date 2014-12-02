@@ -15,13 +15,20 @@ def input_info
   print "Please enter student's name?: "
   name = gets.chomp
     while !name.empty? do 
+      print "Please enter #{name}'s cohort: "
+      cohort = gets.chomp
+        if cohort == ""
+           cohort = "December"
+        else
+           cohort.capitalize
+        end
       print "Please enter #{name}'s nationality?: "
       nationality = gets.chomp
       print "Please enter #{name}'s height?: "
       height = gets.chomp
       print "Please enter #{name}'s age?: "
       age = gets.chomp
-    students << {:name => name, :nationality => nationality, :height => height, :age => age}    
+    students << {:name => name, :cohort => cohort, :nationality => nationality, :height => height, :age => age}    
     puts ""
     puts "Now we have #{students.length} students".center(50)
     puts "If you have no more student's to enter, press RETURN to finish.".center(50)
@@ -44,7 +51,7 @@ end
 
 def list(students)
   students.each_with_index do | student, index |
-    puts "#{index + 1}: #{student[:name]}, #{student[:nationality]}, #{student[:height]}, #{student[:age]}"
+    puts "#{index + 1}: #{student[:name]}, #{student[:cohort]}, #{student[:nationality]}, #{student[:height]}, #{student[:age]}"
   end
 end
 
@@ -57,6 +64,7 @@ end
 
 
 students = input_info
+system "clear"
 print_header
 list(students)
 print_footer(students)
