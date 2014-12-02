@@ -54,11 +54,13 @@ def list_while(students)
 end
 
 
-#def list(students)
-#  students.each_with_index do | student, index |
-#    puts "#{index + 1}: #{student[:name]}, #{student[:cohort]}, #{student[:nationality]}, #{student[:age]}"
-#  end
-#end
+def list(students)
+  students.each_with_index do | student, index |
+      if students[index][:cohort] == "November"
+    puts "#{index + 1}: #{student[:name]}, #{student[:cohort]}, #{student[:nationality]}, #{student[:age]}"
+    end
+end
+end
 
 def list_cohort(students)
   students.sort_by! { |x| x[:cohort] }  
@@ -77,7 +79,7 @@ end
 students = input_info
 system "clear"
 print_header
-list_cohort(students)
+#list_cohort(students)
 #list_while(students)
-#list(students)
+list(students)
 print_footer(students)
