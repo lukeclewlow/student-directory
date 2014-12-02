@@ -76,9 +76,15 @@ def list_cohort(students)
 end
 
 def print_footer(names)
-  puts ""
-  puts "Overall, we have #{names.length} great students.".center(50)
-  puts "" 
+  if names.length == 1
+    puts ""
+    puts "Overall, we have #{names.length} great student.".center(50)
+    puts "" 
+  else
+    puts ""
+    puts "Overall, we have #{names.length} great student.".center(50)
+    puts "" 
+  end
 end
 
 
