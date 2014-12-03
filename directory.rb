@@ -15,7 +15,8 @@ def menu
     puts ""
     puts "1. Input student details"
     puts "2. Show list of students"
-    puts "3. Save the list of students"
+    puts "3. Save list of students"
+    puts "4. Load list of students"
     puts "9. Exit"
     puts ""
 end
@@ -38,7 +39,11 @@ end
 def interactive_menu
   loop do
     menu
-    selection = gets.chomp
+    process(gets.chomp)
+  end
+end
+    
+def process(selection)
     case selection
       when "1" 
         @students = input_info
@@ -46,10 +51,11 @@ def interactive_menu
         print_list
       when "3"
         save_students
+      when "4"
+        load_students
       when "9"
       else puts "Please select from the list."
     end
-  end
 end
 
 
@@ -96,6 +102,7 @@ end
 
 
 def list(students)
+      puts "Please enter a month relating to the cohort you wish to view (leave blank to see all.)".center(@linewidth)
       month = gets.chomp
         if month == ""
             @students.each_with_index do | student, index |  
@@ -131,6 +138,16 @@ def save_students
     student_data = [student[:name], student[:cohort], student[:nationality], student[:age]]
     csv_line = student_data.join(",")
     file.puts csv_line
+  end
+  file.close
+end
+
+
+def load_students
+  file = File.open("students.csv", "r")
+  file.readlines.each do |line|
+  name, cohort, nationality, age = line.chomp.split(',')
+    @students << {:name => name, :cohort => cohort.to_sym, :nationality => nationality, :age => age}
   end
   file.close
 end
