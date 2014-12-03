@@ -142,12 +142,16 @@ def save_students
   file.close
 end
 
+def add_student(name, cohort, nationality, age)
+    @students << {:name => name, :cohort => cohort.to_sym, :nationality => nationality, :age => age}
+end
 
-def load_students
-  file = File.open("students.csv", "r")
+
+def load_students(filename = "students.csv")
+  file = File.open(filename, "r")
   file.readlines.each do |line|
   name, cohort, nationality, age = line.chomp.split(',')
-    @students << {:name => name, :cohort => cohort.to_sym, :nationality => nationality, :age => age}
+  add_student(name, cohort, nationality, age)  
   end
   file.close
 end
