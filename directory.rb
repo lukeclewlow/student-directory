@@ -15,18 +15,22 @@ def menu
     puts ""
     puts "1. Input student details"
     puts "2. Show list of students"
+    puts "3. Save the list of students"
     puts "9. Exit"
     puts ""
 end
 
 def print_list
-    print_header
       if @students.size > 0
+        print_header
         list(@students)
         print_footer(@students)
       else
+        puts ""
         puts "There is currently no student information stored in the directory."  
         puts ""
+        sleep(1)
+        system "clear"
       end
 end
 
@@ -40,6 +44,8 @@ def interactive_menu
         @students = input_info
       when "2" 
         print_list
+      when "3"
+        save_students
       when "9"
       else puts "Please select from the list."
     end
@@ -53,13 +59,12 @@ def input_info
   puts ""
     print "Please enter student's name?: "
     name = gets.chomp.to_sym
-      while !name.empty? do 
-        print "Please enter #{name}'s cohort: "
-        cohort = gets.chomp
+    print "Please enter #{name}'s cohort: "
+    cohort = gets.chomp
           if cohort == ""
-              cohort = "December"
+             cohort = "December"
           else
-              cohort.capitalize.to_sym
+             cohort.capitalize.to_sym
           end
         print "Please enter #{name}'s nationality?: "
         nationality = gets.chomp.to_sym
@@ -67,12 +72,7 @@ def input_info
         age = gets.chomp.to_sym
         @students << {:name => name, :cohort => cohort, :nationality => nationality, :age => age}    
         puts ""
-        puts "Now we have #{@students.length} students".center(@linewidth)
-        puts "If you have no more student's to enter, press RETURN to finish.".center(@linewidth)
-        puts ""
-        print "Please enter student's name?: "
-        name = gets.chomp.to_sym
-      end
+        puts "Now we have #{@students.length} students".center(@linewidth)  
     @students
 end	
 
@@ -96,7 +96,6 @@ end
 
 
 def list(students)
-      puts "Which month's cohort would you like to see? (Leave blank for all)"
       month = gets.chomp
         if month == ""
             @students.each_with_index do | student, index |  
@@ -109,14 +108,6 @@ def list(students)
             end
           end
         end
-end
-
-
-def list_cohort(students)
-  @students.sort_by! { |x| x[:cohort] }  
-  @students.each_with_index do | student,  index | 
-    puts "#{index + 1}: #{student[:name]}, #{student[:cohort]}, #{student[:nationality]}, #{student[:age]}" 
-  end
 end
 
 
@@ -133,16 +124,18 @@ def print_footer(students)
   end
 end
 
+
+def save_students
+  file= File.open("students.csv", "w")
+  @students.each do |student|
+    student_data = [student[:name], student[:cohort], student[:nationality], student[:age]]
+    csv_line = student_data.join(",")
+    file.puts csv_line
+  end
+  file.close
+end
+
+
 interactive_menu
-#students = input_info
-#system "clear"
-#print_header
-#list_cohort(students)
-#list_while(students)
-#  if students.length > 0
-#    list(students)
-#    print_footer(students)
-#  else
-#    puts "There is currently no student information stored in the directory."  
-#    puts ""
-#  end
+
+
