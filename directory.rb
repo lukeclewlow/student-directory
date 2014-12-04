@@ -1,17 +1,18 @@
 system "clear"    
 
-@linewidth = 100
+@lw = 100
 
 puts ""
-puts "Welcome to the student database".center(@linewidth)
-puts "===============================".center(@linewidth)
+puts "Welcome to the student database".center(@lw)
+puts "===============================".center(@lw)
 
 @students = []
+@student = []
 
 def menu
     puts ""
-    puts "Please select an option: ".center(@linewidth)
-    puts "------------------------".center(@linewidth)
+    puts "Please select an option: ".center(@lw)
+    puts "------------------------".center(@lw)
     puts ""
     puts "1. Input student details"
     puts "2. Show list of students"
@@ -46,7 +47,7 @@ end
 def process(selection)
     case selection
       when "1" 
-        @students = input_info
+        @students = info
       when "2" 
         print_list
       when "3"
@@ -61,51 +62,54 @@ end
 
 def quit
   puts ""
-  puts "---------THANK YOU FOR USING STUDENT DIRECTORY---------".center(@linewidth)
+  puts "---------THANK YOU FOR USING STUDENT DIRECTORY---------".center(@lw)
   puts ""
   sleep(2)
   system "clear"
   exit
 end
 
-def input_info
-  puts "Please enter all requested information.".center(@linewidth)
+def info
+  puts "Please enter all requested information.".center(@lw)
   puts ""
-  print "Please enter student's name?: "
-  name = STDIN.gets.chomp.to_sym
-  print "Please enter #{name}'s cohort: "
-  cohort = STDIN.gets.chomp
-  print "Please enter #{name}'s nationality?: "
-  nationality = STDIN.gets.chomp.to_sym
-  print "Please enter #{name}'s age?: "
-  age = STDIN.gets.chomp.to_sym
-  @students << {:name => name, :cohort => cohort, :nationality => nationality, :age => age}    
-  puts ""
-  puts "Now we have #{@students.length} students".center(@linewidth)  
+  questions = [:name, :cohort, :nationality, :age]
+  questions.each do |q|
+    print "Please enter students #{q}: "
+    answer = STDIN.gets.chomp.to_sym
+    @student << {"#{q}" => "#{answer}"}
+    @hold = @student.reduce(:merge)
+  end
+  @students << @hold
+  @students = symbolize(@students)
   @students
-end	
+end
+
+
+def symbolize(students)
+  return students.reduce({}) do |memo, (k, v)|
+    memo.tap { |m| m[k.to_sym] = symbolize(v) }
+  end if students.is_a? Hash
+    
+  return students.reduce([]) do |memo, v| 
+    memo << symbolize(v); memo
+  end if students.is_a? Array
+  
+  students
+  
+end
 
 
 def print_header
   puts ""
-  puts "-------------".center(@linewidth)
-  puts "The students of my cohort at Makers Academy".center(@linewidth)
-  puts "-------------".center(@linewidth)
+  puts "-------------".center(@lw)
+  puts "The students of my cohort at Makers Academy".center(@lw)
+  puts "-------------".center(@lw)
   puts ""
 end
 
 
-def list_while(students)
-  index = 0
-    while index < @students.length 
-      puts "#{@students[index][:name]}, #{@students[index][:cohort]}, #{@students[index][:nationality]}, #{@students[index][:age]}"
-      index += 1
-    end
-end
-
-
 def list(students)
-      puts "Please enter a month relating to the cohort you wish to view (leave blank to see all.)".center(@linewidth)
+      puts "Please enter a month relating to the cohort you wish to view (leave blank to see all.)".center(@lw)
       month = STDIN.gets.chomp
         if month == ""
             @students.each_with_index do | student, index |  
@@ -125,18 +129,18 @@ def print_footer(students)
   if
     @students.length == 1
     puts ""
-    puts "Overall, we have #{@students.length} great student.".center(@linewidth)
+    puts "Overall, we have #{@students.length} great student.".center(@lw)
     puts "" 
   else
     puts ""
-    puts "Overall, we have #{@students.length} great students.".center(@linewidth)
+    puts "Overall, we have #{@students.length} great students.".center(@lw)
     puts "" 
   end
 end
 
 
 def save_students
-  file= File.open("students.csv", "w")
+  file = File.open("students.csv", "w")
   @students.each do |student|
     student_data = [student[:name], student[:cohort], student[:nationality], student[:age]]
     csv_line = student_data.join(",")
@@ -170,7 +174,8 @@ def try_load_students
     load_students(filename)
     puts "Loaded #{@students.length} from #{filename}"
   else
-    puts "Sorry, #{filename} doesn't exist."
+    puts "Sorry, #{filename} doesn't exist. Please try again"
+    puts ""
     exit
   end
 end
