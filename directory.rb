@@ -54,32 +54,35 @@ def process(selection)
       when "4"
         load_students
       when "9"
+        quit
       else puts "Please select from the list."
     end
 end
 
-
+def quit
+  puts ""
+  puts "---------THANK YOU FOR USING STUDENT DIRECTORY---------".center(@linewidth)
+  puts ""
+  sleep(2)
+  system "clear"
+  exit
+end
 
 def input_info
   puts "Please enter all requested information.".center(@linewidth)
   puts ""
-    print "Please enter student's name?: "
-    name = gets.chomp.to_sym
-    print "Please enter #{name}'s cohort: "
-    cohort = gets.chomp
-          if cohort == ""
-             cohort = "December"
-          else
-             cohort.capitalize.to_sym
-          end
-        print "Please enter #{name}'s nationality?: "
-        nationality = gets.chomp.to_sym
-        print "Please enter #{name}'s age?: "
-        age = gets.chomp.to_sym
-        @students << {:name => name, :cohort => cohort, :nationality => nationality, :age => age}    
-        puts ""
-        puts "Now we have #{@students.length} students".center(@linewidth)  
-    @students
+  print "Please enter student's name?: "
+  name = STDIN.gets.chomp.to_sym
+  print "Please enter #{name}'s cohort: "
+  cohort = STDIN.gets.chomp
+  print "Please enter #{name}'s nationality?: "
+  nationality = STDIN.gets.chomp.to_sym
+  print "Please enter #{name}'s age?: "
+  age = STDIN.gets.chomp.to_sym
+  @students << {:name => name, :cohort => cohort, :nationality => nationality, :age => age}    
+  puts ""
+  puts "Now we have #{@students.length} students".center(@linewidth)  
+  @students
 end	
 
 
@@ -103,7 +106,7 @@ end
 
 def list(students)
       puts "Please enter a month relating to the cohort you wish to view (leave blank to see all.)".center(@linewidth)
-      month = gets.chomp
+      month = STDIN.gets.chomp
         if month == ""
             @students.each_with_index do | student, index |  
             puts "#{index + 1}: #{student[:name]}, #{student[:cohort]}, #{student[:nationality]}, #{student[:age]}"
@@ -140,6 +143,9 @@ def save_students
     file.puts csv_line
   end
   file.close
+  puts ""
+  puts "Saved..."
+  puts ""
 end
 
 def add_student(name, cohort, nationality, age)
@@ -157,6 +163,19 @@ def load_students(filename = "students.csv")
 end
 
 
+def try_load_students
+  filename = ARGV.first
+  return if filename.nil?
+  if File.exists?(filename)
+    load_students(filename)
+    puts "Loaded #{@students.length} from #{filename}"
+  else
+    puts "Sorry, #{filename} doesn't exist."
+    exit
+  end
+end
+
+try_load_students
 interactive_menu
 
 
