@@ -1,4 +1,4 @@
-system "clear"    
+require "Formatador" 
 
 @lw = 100
 
@@ -76,26 +76,11 @@ def info
   questions.each do |q|
     print "Please enter students #{q}: "
     answer = STDIN.gets.chomp.to_sym
-    @student << {"#{q}" => "#{answer}"}
+    @student << { q => "#{answer}" }
     @hold = @student.reduce(:merge)
   end
   @students << @hold
-  @students = symbolize(@students)
   @students
-end
-
-
-def symbolize(students)
-  return students.reduce({}) do |memo, (k, v)|
-    memo.tap { |m| m[k.to_sym] = symbolize(v) }
-  end if students.is_a? Hash
-    
-  return students.reduce([]) do |memo, v| 
-    memo << symbolize(v); memo
-  end if students.is_a? Array
-  
-  students
-  
 end
 
 
@@ -112,9 +97,9 @@ def list(students)
       puts "Please enter a month relating to the cohort you wish to view (leave blank to see all.)".center(@lw)
       month = STDIN.gets.chomp
         if month == ""
-            @students.each_with_index do | student, index |  
-            puts "#{index + 1}: #{student[:name]}, #{student[:cohort]}, #{student[:nationality]}, #{student[:age]}"
-          end  
+            Formatador.display_table(@students, [:name, :cohort, :nationality, :age]) #added gem that enable tables to be displayed
+            #@students.each_with_index do | student, index |  
+            #puts "#{index + 1}: #{student[:name]}, #{student[:cohort]}, #{student[:nationality]}, #{student[:age]}"   
         else
         @students.each_with_index do | student, index |
             if @students[index][:cohort] == month
@@ -180,6 +165,7 @@ def try_load_students
   end
 end
 
+system "clear"
 try_load_students
 interactive_menu
 
