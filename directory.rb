@@ -124,9 +124,10 @@ def print_footer(students)
 end
 
 
+
 def save_students(filename = "students.csv")
-  puts "Select where to save the file."
-  filename = gets.chomp
+  puts "Select where to save the file. Leave blank for default location."
+  default
   file = File.open(filename, "w")
   @students.each do |student|
     student_data = [student[:name], student[:cohort], student[:nationality], student[:age]]
@@ -144,13 +145,19 @@ def add_student(name, cohort, nationality, age)
 end
 
 
+def default
+  filename = gets.chomp
+  if  filename == ""
+      filename = "students.csv"
+    end
+    return filename
+end
+
+
 def load_students(filename = "students.csv")
   puts "Please select a file from the list below or leave blank to load default."
   system "ls"
-  filename = gets.chomp
-    if filename = ""
-       filename = "students.csv"
-    end
+  default
   puts ""
   file = File.open(filename, "r")
   file.readlines.each do |line|
